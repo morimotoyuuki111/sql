@@ -136,4 +136,139 @@ WHERE purchasesd_at ="2017-07-01";
 ```go
 WHEREの条件では「＝」の他にも比較演算子と呼ばれる
 ```
+```go
+SELECT＊
+FROM purchases
+WHERE price >= 1000; //priceカラムのデータが「１０００以上のデータ」を検索する
+```
 <a href="https://tech.pjin.jp/blog/2020/11/30/%E3%80%90sql%E5%85%A5%E9%96%80%E3%80%91%E6%AF%94%E8%BC%83%E6%BC%94%E7%AE%97%E5%AD%90%E3%81%AB%E3%82%88%E3%82%8B%E6%9D%A1%E4%BB%B6%E6%8C%87%E5%AE%9A/">比較演算子</a><br>
+
+# LIKE演算子
+```go
+「ある文字を含むデータ」を取得したい場合は、「〜のような」という意味を持つ、「LIKE演算子」を用います
+```
+```go
+SELECT *
+FROM purchases
+WHERE name LIKE 文字列;
+```
+<a href="https://wa3.i-3-i.info/word11660.html">LIKE型</a><br>
+
+- ワイルドカード
+```go
+LIKE演算子を用いる際に覚えておく必要があるのが「ワイルドカード」です。コンピュータの世界で「ワイルドカードとは、
+どんな文字列にも一致することを指す記号です。LIKE演算子では「％」をワイルドカードとして扱います。
+```
+
+```go
+SELECT *
+FROM purchases
+WHERE name LIKE "%００%";//００前後の％％により００に入る文字を含むデータを取得可能
+```
+<a href="https://wa3.i-3-i.info/word11660.html](https://wa3.i-3-i.info/word11613.html)">ワイルドカード</a><br>
+
+- NOT演算子
+```go
+「〇〇を含まないデータ」や「〇〇に一致しないデータ」のような条件でデータを取得したい場合は「否定」を意味する「NOT演算子」を用います。
+```
+# NULL
+```go
+データベースには「**中身がなにかわからない**」ということを示すNULLというもの
+例えば、何のデータも保存されていない場合などにNULLとなる
+```
+```go
+NULLのデータを取得するためには「〜がNULLである」という意味になる、「IS NULL」を用います。図のように「カラム名 IS NULL」とすることで、「指定したカラムがNULLであるデータ」を取得することが可能です。
+```
+```go
+SELECT*FROM purchases
+WHERE pice IS NULL; //指定したカラムのデータがNULLであるものを取得する
+```
+<a href="https://wa3.i-3-i.info/word156.html">NULL</a><br>
+
+```go
+一方、「NULLではないデータ」を取得する場合は「〜がNULLでない」という意味になる「IS NOT NULL」を用います。「IS NOT NULL」も「IS NULL」と同様に、「カラム名 IS NOT NULL」のようにして使います。
+```
+```go
+SELECT*FROM purchases
+WHERE pice IS NOT NULL; //指定したカラムのデータがNULLでないものを取得する
+```
+
+- NULLに関するデータを取得するときの注意点
+```go
+「NULLのデータ」や「NULLでないデータ」を取得したい場合、
+図のように「=」は使うことができません。
+```
+```go
+SELECT*FROM purchases
+WHERE pice= NOT; //使用できない
+
+SELECT*FROM purchases
+WHERE NOT pice= NOT; //使用できない
+```
+
+# AND演算子
+```go
+AND演算子を使うと、WHEREに複数の条件を指定することができます。「WHERE 条件１ AND 条件２」のようにすることで、条件１と条件２を共に満たすデータを検索することができます。
+```
+<a href="https://wa3.i-3-i.info/word11662.html">AND演算子</a><br>
+
+# OR演算子
+```go
+OR演算子は、AND演算子と同様に、複数の条件を扱います。「WHERE 条件１ OR 条件２」のようにすることで、条件１または条件２のどちらかを満たすデータを検索することができます。
+```
+<a href="https://wa3.i-3-i.info/word11663.html">OR演算子</a><br>
+
+# ORDER BY
+```go
+昇順　　ASC
+降順　DESC
+```
+
+```go
+データを並び替えるためには、「〜順に並べる」という意味の「ORDER BY」を用います。
+```
+
+```go
+降順　DESC
+クエリの末尾に記述することで、取得結果を並び替えます。
+SELECT ＊
+FORM　purchases
+ORDER　BY　price DESC;
+```
+
+# LIMIT
+```go
+「最大で何件取得するか」を指定するためには、「制限する」という意味の「LIMIT」を用います。
+```
+```go
+LIMIT データの件数;
+```
+```go
+LIMITはクエリの末尾に記述することで、取得するデータの数を制限します。
+```
+```go
+SELECT ＊
+FORM　purchases
+LIMIT 5;
+```
+
+```go
+「LIMIT」も「ORDER BY」と同様に「WHERE」と併用することが可能です。
+```
+```go
+SELECT ＊
+FORM　purchases
+WHERE 条件
+LIMIT 5;
+```
+# ORDER BYとLIMITの組み合わせ
+
+```go
+ORDER BY」と「LIMIT」を併用することも可能です。その場合、「LIMIT」を末尾にする必要があります。このように２つを用いることで、priceが高いデータの上位５位を取得することができます。
+```
+```go
+SELECT ＊
+FORM　purchases
+ORDER BY price DESC
+LIMIT 5;
+```
